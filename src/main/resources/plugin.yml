@@ -1,0 +1,24 @@
+name: Bedwars
+version: '${version}'
+main: world.anhgelus.architectsland.bedwars.Bedwars
+author: "Anhgelus Morhtuuzh"
+depend:
+  - kotlin-stdlib
+load: STARTUP
+commands:
+  start:
+    description: Start the game
+    permission: bedwars.start
+    usage: /start
+  stop:
+    description: Stop the game
+    permission: bedwars.stop
+    usage: /stop
+  team:
+    description: manage teams
+    permission: bedwars.team
+    usage: /teams [add/remove] [teams] [player]
+  bedwars:
+    description: Set settings directly on your possition
+    permission: bedwars.settings
+    usage: /bedwars [teams] [respawn | bed | generator | items-seller | upgrades-seller]
