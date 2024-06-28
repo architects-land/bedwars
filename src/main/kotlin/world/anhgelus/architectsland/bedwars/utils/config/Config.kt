@@ -5,6 +5,8 @@ import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.plugin.Plugin
 import java.io.File
 import java.io.IOException
+import java.nio.file.Files
+import java.nio.file.Paths
 
 class Config(val main: Plugin, val name: String) {
     private val database: File = File(main.dataFolder, "$name.yml")
@@ -12,7 +14,8 @@ class Config(val main: Plugin, val name: String) {
 
     init {
         if (!database.exists()) {
-            main.saveResource("$name.yml", false)
+            Files.createDirectories(Paths.get(main.dataFolder.toString()));
+            database.createNewFile()
         }
     }
 

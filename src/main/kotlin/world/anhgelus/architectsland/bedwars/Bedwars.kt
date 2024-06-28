@@ -16,6 +16,7 @@ class Bedwars : JavaPlugin() {
         setLogger(logger)
         instance = this
         ConfigAPI.setup(this)
+        ConfigAPI.config(ConfigAPI.teamConfigFile)
 
         Game(mutableSetOf())
 
