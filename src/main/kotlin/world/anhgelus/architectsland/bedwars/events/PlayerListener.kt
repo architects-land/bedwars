@@ -74,6 +74,9 @@ object PlayerListener : Listener {
 
     @EventHandler
     fun onBlockBreak(event: BlockBreakEvent) {
+        if (event.player.gameMode == GameMode.CREATIVE) {
+            return
+        }
         if (event.block.type !in breakable) {
             event.isCancelled = true
             return

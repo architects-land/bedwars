@@ -46,6 +46,7 @@ object BedwarsCommand : CommandExecutor, TabCompleter {
             }
             "generator" -> {
                 team.generatorLoc = sender.location
+                team.generatorLoc!!.y += 0.3
             }
             "items-seller" -> {
                 team.itemSellerLoc = sender.location
