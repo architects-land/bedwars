@@ -28,8 +28,8 @@ object PlayerListener : Listener {
         if (player.health - event.damage > 0) {
             return
         }
+        val tp = TeamPlayer.fromPlayer(player) ?: return
         event.isCancelled = true
-        val tp = TeamPlayer.fromPlayer(player)!!
         if (event is EntityDamageByEntityEvent && event.damager is Player) {
             tp.kill(event.damager as Player)
         } else {
