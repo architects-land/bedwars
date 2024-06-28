@@ -86,6 +86,12 @@ object PlayerListener : Listener {
         }
         val team = Team.getFromBedLocation(event.block.location) ?:
             throw NullPointerException("team from location ${event.block.location} is null")
+        val tPlayer = TeamPlayer.fromPlayer(event.player)
+        if (tPlayer?.team == team) {
+            event.player.sendMessage("Alors bébou, tu veux casser ton lit ?")
+            event.isCancelled = true
+            return
+        }
         team.lostBed()
     }
 }
