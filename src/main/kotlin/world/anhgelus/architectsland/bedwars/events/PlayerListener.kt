@@ -1,6 +1,7 @@
 package world.anhgelus.architectsland.bedwars.events
 
 import org.bukkit.Bukkit
+import org.bukkit.ChatColor
 import org.bukkit.GameMode
 import org.bukkit.Material
 import org.bukkit.entity.Player
@@ -12,11 +13,12 @@ import org.bukkit.event.entity.EntityDamageEvent
 import world.anhgelus.architectsland.bedwars.Bedwars
 import world.anhgelus.architectsland.bedwars.team.Team
 import world.anhgelus.architectsland.bedwars.team.TeamPlayer
+import world.anhgelus.architectsland.bedwars.utils.TitleGenerator
 
 object PlayerListener : Listener {
 
     val breakable = listOf(
-        Material.WOOL, Material.BED, Material.ENDER_STONE, Material.OBSIDIAN, Material.CLAY, Material.GLASS, Material.WOOD /* All planks*/
+        Material.WOOL, Material.BED_BLOCK, Material.ENDER_STONE, Material.OBSIDIAN, Material.CLAY, Material.GLASS, Material.WOOD /* All planks*/
     )
 
     @EventHandler
@@ -28,8 +30,8 @@ object PlayerListener : Listener {
         if (player.health - event.damage > 0) {
             return
         }
+        val tp = TeamPlayer.fromPlayer(player) ?: return
         event.isCancelled = true
-        val tp = TeamPlayer.fromPlayer(player)!!
         if (event is EntityDamageByEntityEvent && event.damager is Player) {
             tp.kill(event.damager as Player)
         } else {
@@ -58,12 +60,14 @@ object PlayerListener : Listener {
             it.inventory.clear();
             if(teams.first().players.contains(it)){
                 it.allowFlight = true;
-                @Suppress("DEPRECATION")
-                it.sendTitle("Victoire", "--------------------")
+                TitleGenerator.sendTitle(it.player, TitleGenerator.Part("Victoire", ChatColor.GREEN))
             } else {
-                it.gameMode = GameMode.SPECTATOR;
-                @Suppress("DEPRECATION")
-                it.sendTitle("Défaite", "Vitoire de l'équipe ${teams.first().teamName} !")
+                it.gameMode = GameMode.SPECTATOR
+                TitleGenerator.sendTitle(
+                    it.player,
+                    TitleGenerator.Part("Défaite", ChatColor.RED),
+                    TitleGenerator.Part("Victoire de l'équipe ${teams.first().teamName} !", ChatColor.WHITE)
+                )
             }
         }
     }
@@ -74,7 +78,7 @@ object PlayerListener : Listener {
             event.isCancelled = true
             return
         }
-        if (event.block.type != Material.BED) {
+        if (event.block.type != Material.BED_BLOCK) {
             return
         }
         val team = Team.getFromBedLocation(event.block.location) ?:
