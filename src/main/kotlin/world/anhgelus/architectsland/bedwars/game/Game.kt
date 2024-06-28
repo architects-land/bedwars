@@ -47,9 +47,7 @@ class Game(
             var c = 0
             nears.forEach {
                 if (it.type == EntityType.DROPPED_ITEM) {
-                    val e = it as Item
-                    e.itemStack.amount
-                    c += e.itemStack.amount
+                    c += (it as Item).itemStack.amount
                 }
 
             }
