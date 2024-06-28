@@ -1,6 +1,6 @@
 # Bedwars
 
-Bedwars is a spigot plugin made for an event of *Architects Land - Terre des Civilisation*.
+Bedwars is a spigot plugin made for an event of *Architects Land - Terre des Civilisations*.
 This event is a classic Hypixel bedwars.
 
 It was made by @anhgelus and @Akik4 .
