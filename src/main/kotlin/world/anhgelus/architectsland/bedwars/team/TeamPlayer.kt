@@ -11,6 +11,7 @@ import org.bukkit.inventory.meta.LeatherArmorMeta
 import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
 import world.anhgelus.architectsland.bedwars.utils.ColorHelper
+import world.anhgelus.architectsland.bedwars.utils.TitleGenerator
 
 data class TeamPlayer(val player: Player, val team: Team) {
     var armorLevel = 0
@@ -24,8 +25,9 @@ data class TeamPlayer(val player: Player, val team: Team) {
     fun respawn() {
         if (!team.canRespawn()) return
         player.teleport(team.respawnLoc)
-        @Suppress("DEPRECATION")
-        player.sendTitle("${ChatColor.GREEN}Respawned!", "")
+
+        TitleGenerator.sendTitle(player, TitleGenerator.Part("Réapparition", ChatColor.GREEN))
+
         player.gameMode = GameMode.SURVIVAL
 
         pickaxeLevel--
