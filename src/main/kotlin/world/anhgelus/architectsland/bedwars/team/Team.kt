@@ -4,6 +4,7 @@ import org.bukkit.ChatColor
 import org.bukkit.Location
 import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.entity.Player
+import org.bukkit.material.Bed
 import world.anhgelus.architectsland.bedwars.Bedwars
 import world.anhgelus.architectsland.bedwars.utils.LocationHelper
 
@@ -16,9 +17,9 @@ enum class Team(
     BLUE("Blue", ChatColor.BLUE),
     YELLOW("Yellow", ChatColor.YELLOW),
     AQUA("Aqua", ChatColor.AQUA),
-    GREY("Grey", ChatColor.GRAY),
+    GREY("Gray", ChatColor.GRAY),
     PINK("Pink", ChatColor.LIGHT_PURPLE),
-    PURPLE("Pink", ChatColor.DARK_PURPLE);
+    PURPLE("Purple", ChatColor.DARK_PURPLE);
 
     var hasBed: Boolean = true
         private set
@@ -47,7 +48,7 @@ enum class Team(
 
     fun setInConfig(s: ConfigurationSection) {
         val section = s.getConfigurationSection(this.teamName.lowercase()) ?: generateSection(s)
-        section.set("color", this.color.toString())
+        section.set("color", this.color.name)
         section.set("name", this.teamName)
         if (this.respawnLoc != null)
             LocationHelper.setInConfig(this.respawnLoc!!, section.getConfigurationSection("location.respawn"))
@@ -82,7 +83,6 @@ enum class Team(
     companion object {
         fun loadFromConfig(s: ConfigurationSection, name: String): Team? {
             if (!s.isConfigurationSection(name)) return null
-
             val section = s.getConfigurationSection(name.lowercase())
 
             val color = ChatColor.valueOf(section.getString("color")!!)
@@ -98,11 +98,12 @@ enum class Team(
 
             return try {
                 val f = entries.first {
-                    it.color == color && it.name == teamName
+                    it.color == color && it.name.equals(teamName, true)
                 }
                 f.updateLocation(respawnLoc, bedLoc, generatorLoc, itemSellerLoc, upgradeSellerLoc)
                 f
             } catch (e: NoSuchElementException) {
+                e.printStackTrace()
                 null
             }
         }

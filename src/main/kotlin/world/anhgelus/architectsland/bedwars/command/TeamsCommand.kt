@@ -21,7 +21,7 @@ object TeamsCommand : CommandExecutor, TabCompleter {
         val action = args[0]
         if (action != "add" && action != "remove") return false
 
-        val team = Team.loadFromConfig(ConfigAPI.config(ConfigAPI.teamConfigFile).fileConfig(), args[1])
+        val team = Team.loadFromConfig(ConfigAPI.config(ConfigAPI.teamConfigFile).fileConfig(), args[1].lowercase())
         if (team == null) {
             sender!!.sendMessage("Team ${args[1]} not found. Did you used /bedwars to set locations?")
             return true
@@ -67,7 +67,7 @@ object TeamsCommand : CommandExecutor, TabCompleter {
                 }
             }
             3 -> {
-                return null;
+                return null
             }
         }
         return list
