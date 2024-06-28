@@ -66,7 +66,7 @@ object PlayerListener : Listener {
                 TitleGenerator.sendTitle(
                     it.player,
                     TitleGenerator.Part("Défaite", ChatColor.RED),
-                    TitleGenerator.Part("Victoire de l'équipe ${teams.first().teamName} !")
+                    TitleGenerator.Part("Victoire de l'équipe ${teams.first().teamName} !", ChatColor.WHITE)
                 )
             }
         }

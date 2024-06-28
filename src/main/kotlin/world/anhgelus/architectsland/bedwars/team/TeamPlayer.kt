@@ -29,6 +29,9 @@ data class TeamPlayer(val player: Player, val team: Team) {
         TitleGenerator.sendTitle(player, TitleGenerator.Part("Réapparition", ChatColor.GREEN))
 
         player.gameMode = GameMode.SURVIVAL
+        player.health = 20.0
+        player.foodLevel = 20
+        for (e in player.activePotionEffects) player.removePotionEffect(e.type)
 
         pickaxeLevel--
         axeLevel--
