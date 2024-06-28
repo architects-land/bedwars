@@ -47,7 +47,6 @@ enum class Team(
 
     fun setInConfig(s: ConfigurationSection) {
         val section = s.getConfigurationSection(this.teamName.lowercase()) ?: generateSection(s)
-        Bedwars.logger.info(section.toString())
         section.set("color", this.color.toString())
         section.set("name", this.teamName)
         if (this.respawnLoc != null)
@@ -82,7 +81,6 @@ enum class Team(
 
     companion object {
         fun loadFromConfig(s: ConfigurationSection, name: String): Team? {
-            println(name)
             if (!s.isConfigurationSection(name)) return null
 
             val section = s.getConfigurationSection(name.lowercase())
