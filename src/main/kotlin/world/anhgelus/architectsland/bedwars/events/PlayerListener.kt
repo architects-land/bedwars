@@ -18,7 +18,7 @@ import world.anhgelus.architectsland.bedwars.utils.TitleGenerator
 object PlayerListener : Listener {
 
     val breakable = listOf(
-        Material.WOOL, Material.BED, Material.ENDER_STONE, Material.OBSIDIAN, Material.CLAY, Material.GLASS, Material.WOOD /* All planks*/
+        Material.WOOL, Material.BED_BLOCK, Material.ENDER_STONE, Material.OBSIDIAN, Material.CLAY, Material.GLASS, Material.WOOD /* All planks*/
     )
 
     @EventHandler
@@ -78,7 +78,7 @@ object PlayerListener : Listener {
             event.isCancelled = true
             return
         }
-        if (event.block.type != Material.BED) {
+        if (event.block.type != Material.BED_BLOCK) {
             return
         }
         val team = Team.getFromBedLocation(event.block.location) ?:
