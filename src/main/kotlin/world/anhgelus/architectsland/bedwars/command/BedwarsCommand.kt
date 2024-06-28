@@ -1,13 +1,10 @@
 package world.anhgelus.architectsland.bedwars.command
 
-import org.bukkit.Bukkit
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
 import org.bukkit.command.TabCompleter
 import org.bukkit.entity.Player
-import sun.misc.ObjectInputFilter.Config
-import world.anhgelus.architectsland.bedwars.game.Game
 import world.anhgelus.architectsland.bedwars.team.Team
 import world.anhgelus.architectsland.bedwars.utils.config.ConfigAPI
 
@@ -57,7 +54,11 @@ object BedwarsCommand : CommandExecutor, TabCompleter {
                 team.upgradeSellerLoc = sender.location
             }
         }
-        team.setInConfig(ConfigAPI.config("teams").fileConfig())
+
+        val config = ConfigAPI.config("teams")
+        team.setInConfig(config.fileConfig())
+        config.save()
+
         sender.sendMessage("Location updated.")
         return true
     }
