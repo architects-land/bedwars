@@ -4,6 +4,7 @@ import org.bukkit.ChatColor
 import org.bukkit.Location
 import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.entity.Player
+import world.anhgelus.architectsland.bedwars.Bedwars
 import world.anhgelus.architectsland.bedwars.utils.LocationHelper
 
 enum class Team(
@@ -45,14 +46,29 @@ enum class Team(
     }
 
     fun setInConfig(s: ConfigurationSection) {
-        val section = s.getConfigurationSection(this.teamName.lowercase())
+        val section = s.getConfigurationSection(this.teamName.lowercase()) ?: generateSection(s)
         section.set("color", this.color.toString())
         section.set("name", this.teamName)
-        LocationHelper.setInConfig(this.respawnLoc!!, section.getConfigurationSection("location.respawn"))
-        LocationHelper.setInConfig(this.bedLoc!!, section.getConfigurationSection("location.bed"))
-        LocationHelper.setInConfig(this.generatorLoc!!, section.getConfigurationSection("location.generator"))
-        LocationHelper.setInConfig(this.itemSellerLoc!!, section.getConfigurationSection("location.seller.item"))
-        LocationHelper.setInConfig(this.upgradeSellerLoc!!, section.getConfigurationSection("location.seller.upgrade"))
+        if (this.respawnLoc != null)
+            LocationHelper.setInConfig(this.respawnLoc!!, section.getConfigurationSection("location.respawn"))
+        if (this.bedLoc != null)
+            LocationHelper.setInConfig(this.bedLoc!!, section.getConfigurationSection("location.bed"))
+        if (this.generatorLoc != null)
+            LocationHelper.setInConfig(this.generatorLoc!!, section.getConfigurationSection("location.generator"))
+        if (this.itemSellerLoc != null)
+            LocationHelper.setInConfig(this.itemSellerLoc!!, section.getConfigurationSection("location.seller.item"))
+        if (this.upgradeSellerLoc != null)
+            LocationHelper.setInConfig(this.upgradeSellerLoc!!, section.getConfigurationSection("location.seller.upgrade"))
+    }
+
+    private fun generateSection(s: ConfigurationSection): ConfigurationSection {
+        val section = s.createSection(this.teamName.lowercase())
+        section.createSection("location.respawn")
+        section.createSection("location.bed")
+        section.createSection("location.generator")
+        section.createSection("location.seller.item")
+        section.createSection("location.seller.upgrade")
+        return section
     }
 
     private fun updateLocation(respawnLoc: Location, bedLoc: Location, generatorLoc: Location, itemSellerLoc: Location, upgradeSellerLoc: Location) {
@@ -65,15 +81,20 @@ enum class Team(
 
     companion object {
         fun loadFromConfig(s: ConfigurationSection, name: String): Team? {
+            if (!s.isConfigurationSection(name)) return null
+
             val section = s.getConfigurationSection(name.lowercase())
+
             val color = ChatColor.valueOf(section.getString("color")!!)
             val teamName = section.getString("name")
             // location
             val respawnLoc = LocationHelper.loadFromConfig(section.getConfigurationSection("location.respawn"))
             val bedLoc = LocationHelper.loadFromConfig(section.getConfigurationSection("location.bed"))
             val generatorLoc = LocationHelper.loadFromConfig(section.getConfigurationSection("location.generator"))
-            val itemSellerLoc = LocationHelper.loadFromConfig(section.getConfigurationSection("location.seller.item"))
-            val upgradeSellerLoc = LocationHelper.loadFromConfig(section.getConfigurationSection("location.seller.upgrade"))
+            val itemSellerLoc =
+                LocationHelper.loadFromConfig(section.getConfigurationSection("location.seller.item"))
+            val upgradeSellerLoc =
+                LocationHelper.loadFromConfig(section.getConfigurationSection("location.seller.upgrade"))
 
             return try {
                 val f = entries.first {
