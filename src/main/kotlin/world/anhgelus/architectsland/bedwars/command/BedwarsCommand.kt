@@ -69,7 +69,7 @@ object BedwarsCommand : CommandExecutor, TabCompleter {
         args: Array<out String>?
     ): MutableList<String> {
         val list = mutableListOf<String>()
-        when (args!!.size) {
+        when (args?.size) {
             1 -> {
                 Team.entries.forEach {
                     list.add(it.teamName)
