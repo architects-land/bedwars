@@ -4,9 +4,9 @@ import org.bukkit.ChatColor
 import org.bukkit.Location
 import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.entity.Player
-import org.bukkit.material.Bed
 import world.anhgelus.architectsland.bedwars.Bedwars
 import world.anhgelus.architectsland.bedwars.utils.LocationHelper
+import kotlin.math.abs
 
 enum class Team(
     val teamName: String,
@@ -108,12 +108,17 @@ enum class Team(
             }
         }
 
-        fun getFromBedLocation(location: Location): Team? {
+        fun getFromBedLocation(loc: Location): Team? {
             return try {
                 entries.first {
-                    it.bedLoc == location
+                    val l = it.bedLoc!!
+                    (l.world.uid == loc.world.uid) &&
+                            (abs(l.x - loc.x) < 2) &&
+                            (abs(l.y - loc.y) < 2) &&
+                            (abs(l.z - loc.z) < 2)
                 }
             } catch (e: NoSuchElementException) {
+                e.printStackTrace()
                 null
             }
         }

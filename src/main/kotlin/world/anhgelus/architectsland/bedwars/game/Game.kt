@@ -3,10 +3,8 @@ package world.anhgelus.architectsland.bedwars.game
 import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.Material
-import org.bukkit.entity.Entity
 import org.bukkit.entity.EntityType
 import org.bukkit.entity.Item
-import org.bukkit.event.entity.ItemMergeEvent
 import org.bukkit.inventory.ItemStack
 import org.bukkit.util.Vector
 import world.anhgelus.architectsland.bedwars.Bedwars
