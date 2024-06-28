@@ -14,7 +14,7 @@ commands:
     description: Stop the game
     permission: bedwars.stop
     usage: /stop
-  team:
+  teams:
     description: manage teams
     permission: bedwars.team
     usage: /teams [add/remove] [teams] [player]

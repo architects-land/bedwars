@@ -16,20 +16,20 @@ object TeamsCommand : CommandExecutor, TabCompleter {
         label: String?,
         args: Array<out String>?
     ): Boolean {
-        if (label != "teams" || args!!.size != 4) return false
+        if (label != "teams" || args?.size != 3) return false
 
-        val action = args[1]
+        val action = args[0]
         if (action != "add" && action != "remove") return false
 
-        val team = Team.loadFromConfig(ConfigAPI.config(ConfigAPI.teamConfigFile).fileConfig(), args[2])
+        val team = Team.loadFromConfig(ConfigAPI.config(ConfigAPI.teamConfigFile).fileConfig(), args[1])
         if (team == null) {
-            sender!!.sendMessage("Team ${args[2]} not found. Did you used /bedwars to set locations?")
+            sender!!.sendMessage("Team ${args[1]} not found. Did you used /bedwars to set locations?")
             return true
         }
 
-        val player = Bukkit.getPlayer(args[3])
+        val player = Bukkit.getPlayer(args[2])
         if (player == null) {
-            sender!!.sendMessage("Player ${args[3]} not found")
+            sender!!.sendMessage("Player ${args[2]} not found")
             return true
         }
         // [add/remove] [teams] [player]
@@ -45,7 +45,7 @@ object TeamsCommand : CommandExecutor, TabCompleter {
                 }
             }
         }
-        sender!!.sendMessage("${args[3]} $action to ${team.teamName}")
+        sender!!.sendMessage("${args[2]} $action to ${team.teamName}")
         return true
     }
 

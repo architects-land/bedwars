@@ -27,7 +27,7 @@ class Bedwars : JavaPlugin() {
         //Commands
         getCommand("start").executor = StartCommand
         getCommand("stop").executor = StopCommand
-        getCommand("team").executor = TeamsCommand
+        getCommand("teams").executor = TeamsCommand
         getCommand("bedwars").executor = BedwarsCommand
 
         logger.info("Bedwars Plugin Enabled")
