@@ -54,7 +54,7 @@ object TeamsCommand : CommandExecutor, TabCompleter {
         command: Command?,
         alias: String?,
         args: Array<out String>?
-    ): MutableList<String> {
+    ): MutableList<String>? {
         val list = mutableListOf<String>()
         when (args?.size) {
             1 -> {
@@ -67,9 +67,7 @@ object TeamsCommand : CommandExecutor, TabCompleter {
                 }
             }
             3 -> {
-                Bukkit.getOnlinePlayers().forEach { player ->
-                    list.add(player.displayName)
-                }
+                return null;
             }
         }
         return list
