@@ -23,19 +23,19 @@ object BedwarsCommand : CommandExecutor, TabCompleter {
         label: String?,
         args: Array<out String>?
     ): Boolean {
-        if (label != "teams" || args!!.size != 3 || sender !is Player) return false
+        if (label != "bedwars" || args!!.size != 2 || sender !is Player) return false
 
-        val team = Team.loadFromConfig(ConfigAPI.config(ConfigAPI.teamConfigFile).fileConfig(), args[2])
+        val team = Team.loadFromConfig(ConfigAPI.config(ConfigAPI.teamConfigFile).fileConfig(), args[0])
             ?: try {
             Team.entries.first {
-                it.name.equals(args[1], true)
+                it.name.equals(args[0], true)
             }
         } catch (e: NoSuchElementException) {
-            sender.sendMessage("Team ${args[1]} not found")
+            sender.sendMessage("Team ${args[0]} not found")
             return true
         }
 
-        val location = args[2]
+        val location = args[1]
         if (location !in locations) {
             return false
         }
@@ -69,7 +69,7 @@ object BedwarsCommand : CommandExecutor, TabCompleter {
         args: Array<out String>?
     ): MutableList<String> {
         val list = mutableListOf<String>()
-        when (args!!.size) {
+        when (args?.size) {
             1 -> {
                 Team.entries.forEach {
                     list.add(it.teamName)
