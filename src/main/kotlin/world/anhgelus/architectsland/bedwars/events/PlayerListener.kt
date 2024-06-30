@@ -4,13 +4,16 @@ import org.bukkit.Bukkit
 import org.bukkit.ChatColor
 import org.bukkit.GameMode
 import org.bukkit.Material
+import org.bukkit.entity.EntityType
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.block.BlockBreakEvent
 import org.bukkit.event.entity.EntityDamageByEntityEvent
 import org.bukkit.event.entity.EntityDamageEvent
+import org.bukkit.event.player.PlayerInteractEntityEvent
 import world.anhgelus.architectsland.bedwars.Bedwars
+import world.anhgelus.architectsland.bedwars.game.Shop
 import world.anhgelus.architectsland.bedwars.team.Team
 import world.anhgelus.architectsland.bedwars.team.TeamPlayer
 import world.anhgelus.architectsland.bedwars.utils.TitleGenerator
@@ -18,7 +21,7 @@ import world.anhgelus.architectsland.bedwars.utils.TitleGenerator
 object PlayerListener : Listener {
 
     val breakable = listOf(
-        Material.WOOL, Material.BED_BLOCK, Material.ENDER_STONE, Material.OBSIDIAN, Material.CLAY, Material.GLASS, Material.WOOD /* All planks*/
+        Material.WOOL, Material.BED_BLOCK, Material.ENDER_STONE, Material.OBSIDIAN, Material.HARD_CLAY, Material.GLASS, Material.WOOD /* All planks*/
     )
 
     @EventHandler
@@ -93,5 +96,21 @@ object PlayerListener : Listener {
             return
         }
         team.lostBed()
+    }
+
+    @EventHandler
+    fun onRightClick(event: PlayerInteractEntityEvent)
+    {
+        val player = event.player
+        if(event.rightClicked.type != EntityType.VILLAGER) return;
+        event.isCancelled = true;
+
+        if(event.rightClicked.customName.equals("Items", true)) {
+            //GUI
+            Shop(TeamPlayer.fromPlayer(player)!!.team).displayGuiItems(Shop.GuiMenu.MAIN, player)
+        } else if (event.rightClicked.customName.equals("Upgrades", true)) {
+            // Autre gui
+            Shop(TeamPlayer.fromPlayer(player)!!.team).displayGuiUpgrades(player)
+        }
     }
 }

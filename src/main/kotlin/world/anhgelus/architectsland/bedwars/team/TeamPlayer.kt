@@ -47,32 +47,12 @@ data class TeamPlayer(val player: Player, val team: Team) {
         }
         inv.setItem(0, sword)
 
-        val armors = when (armorLevel) {
-            1 -> mutableListOf(ItemStack(Material.CHAINMAIL_HELMET), ItemStack(Material.CHAINMAIL_CHESTPLATE))
-            2 -> mutableListOf(ItemStack(Material.IRON_HELMET), ItemStack(Material.IRON_CHESTPLATE))
-            3 -> mutableListOf(ItemStack(Material.DIAMOND_HELMET), ItemStack(Material.DIAMOND_CHESTPLATE))
-            else -> mutableListOf(ItemStack(Material.LEATHER_HELMET), ItemStack(Material.LEATHER_CHESTPLATE))
-        }
-        val boots = ItemStack(Material.LEATHER_BOOTS)
-        var meta = boots.itemMeta as LeatherArmorMeta
-        meta.color = ColorHelper.chatColorToColor[team.color]
-        boots.itemMeta = meta
-
-        val leggings = ItemStack(Material.LEATHER_LEGGINGS)
-        meta = leggings.itemMeta as LeatherArmorMeta
-        meta.color = ColorHelper.chatColorToColor[team.color]
-        leggings.itemMeta = meta
-
-        armors.add(boots)
-        armors.add(leggings)
-
-        if (team.upgrade.protection.level > 0) {
-            armors.forEach {
-                val meta = it.itemMeta
-                meta.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, team.upgrade.protection.level, false)
-                it.itemMeta = meta
-            }
-        }
+        team.generateArmor(when(armorLevel) {
+            1 -> Material.CHAINMAIL_BOOTS
+            2 -> Material.IRON_BOOTS
+            3 -> Material.DIAMOND_BOOTS
+            else -> Material.LEATHER_BOOTS
+        }, player)
 
         if (pickaxeLevel > 0) {
             inv.setItem(2, when (pickaxeLevel) {

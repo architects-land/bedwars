@@ -1,6 +1,7 @@
 package world.anhgelus.architectsland.bedwars
 
 import org.bukkit.Bukkit
+import org.bukkit.event.player.PlayerQuitEvent
 import org.bukkit.plugin.java.JavaPlugin
 import world.anhgelus.architectsland.bedwars.command.BedwarsCommand
 import world.anhgelus.architectsland.bedwars.command.StartCommand
@@ -8,6 +9,7 @@ import world.anhgelus.architectsland.bedwars.command.StopCommand
 import world.anhgelus.architectsland.bedwars.command.TeamsCommand
 import world.anhgelus.architectsland.bedwars.events.PlayerListener
 import world.anhgelus.architectsland.bedwars.game.Game
+import world.anhgelus.architectsland.bedwars.game.Shop
 import world.anhgelus.architectsland.bedwars.utils.config.ConfigAPI
 import java.util.logging.Logger
 
@@ -24,6 +26,8 @@ class Bedwars : JavaPlugin() {
 
         //Listener
         manager.registerEvents(PlayerListener, this)
+        manager.registerEvents(Shop.GuiItemsListener, this)
+        manager.registerEvents(Shop.GuiUpgradesListener, this)
 
         //Commands
         getCommand("start").executor = StartCommand
