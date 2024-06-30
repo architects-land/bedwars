@@ -21,7 +21,7 @@ import world.anhgelus.architectsland.bedwars.utils.TitleGenerator
 object PlayerListener : Listener {
 
     val breakable = listOf(
-        Material.WOOL, Material.BED_BLOCK, Material.ENDER_STONE, Material.OBSIDIAN, Material.CLAY, Material.GLASS, Material.WOOD /* All planks*/
+        Material.WOOL, Material.BED_BLOCK, Material.ENDER_STONE, Material.OBSIDIAN, Material.HARD_CLAY, Material.GLASS, Material.WOOD /* All planks*/
     )
 
     @EventHandler

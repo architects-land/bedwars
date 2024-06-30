@@ -2,8 +2,13 @@ package world.anhgelus.architectsland.bedwars.team
 
 import org.bukkit.ChatColor
 import org.bukkit.Location
+import org.bukkit.Material
 import org.bukkit.configuration.ConfigurationSection
+import org.bukkit.enchantments.Enchantment
 import org.bukkit.entity.Player
+import org.bukkit.inventory.ItemStack
+import org.bukkit.inventory.meta.LeatherArmorMeta
+import world.anhgelus.architectsland.bedwars.utils.ColorHelper
 import world.anhgelus.architectsland.bedwars.utils.LocationHelper
 import kotlin.math.abs
 
@@ -39,6 +44,48 @@ enum class Team(
             @Suppress("DEPRECATION")
             it.sendTitle("${ChatColor.RED}Bed destroyed!", "")
         }
+    }
+
+    fun generateSword(material: Material): ItemStack {
+        val item = ItemStack(material)
+        if (upgrade.sharpness.level > 0) {
+            item.addEnchantment(Enchantment.DAMAGE_ALL, upgrade.sharpness.level)
+        }
+        return item
+    }
+
+    fun generateArmor(material: Material, player: Player) {
+        val armors = when (material) {
+            Material.CHAINMAIL_BOOTS -> mutableListOf(ItemStack(Material.CHAINMAIL_BOOTS), ItemStack(Material.CHAINMAIL_LEGGINGS))
+            Material.IRON_BOOTS -> mutableListOf(ItemStack(Material.IRON_BOOTS), ItemStack(Material.IRON_LEGGINGS))
+            Material.DIAMOND_BOOTS -> mutableListOf(ItemStack(Material.DIAMOND_BOOTS), ItemStack(Material.DIAMOND_LEGGINGS))
+            else -> mutableListOf(ItemStack(Material.LEATHER_BOOTS), ItemStack(Material.LEATHER_LEGGINGS))
+        }
+        val chestplate = ItemStack(Material.LEATHER_CHESTPLATE)
+        var meta = chestplate.itemMeta as LeatherArmorMeta
+        meta.color = ColorHelper.chatColorToColor[color]
+        chestplate.itemMeta = meta
+
+        val helmet = ItemStack(Material.LEATHER_HELMET)
+        meta = helmet.itemMeta as LeatherArmorMeta
+        meta.color = ColorHelper.chatColorToColor[color]
+        helmet.itemMeta = meta
+
+        armors.add(chestplate)
+        armors.add(helmet)
+
+        if (upgrade.protection.level > 0) {
+            armors.forEach {
+                val meta = it.itemMeta
+                meta.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, upgrade.protection.level, false)
+                it.itemMeta = meta
+            }
+        }
+
+        player.inventory.helmet = helmet
+        player.inventory.chestplate = chestplate
+        player.inventory.leggings = armors[1]
+        player.inventory.boots = armors[0]
     }
 
     fun canRespawn(): Boolean {
