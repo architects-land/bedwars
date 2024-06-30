@@ -5,16 +5,13 @@ import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftVillager
-import org.bukkit.entity.Entity
 import org.bukkit.entity.EntityType
 import org.bukkit.entity.Item
 import org.bukkit.entity.LivingEntity
-import org.bukkit.entity.Villager
 import org.bukkit.inventory.ItemStack
 import org.bukkit.util.Vector
 import world.anhgelus.architectsland.bedwars.Bedwars
 import world.anhgelus.architectsland.bedwars.team.Team
-import java.lang.reflect.Field
 
 class Game(
     val teams: MutableSet<Team>,
