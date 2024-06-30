@@ -31,8 +31,8 @@ class Game(
 
             //@TODO Create own entity type for npc
 
-            Villager.Create(team.itemSellerLoc, "Items")
-            Villager.Create(team.upgradeSellerLoc, "Upgrades")
+            Villager.Create(team.itemSellerLoc, ITEMS_SELLER)
+            Villager.Create(team.upgradeSellerLoc, UPGRADES_SELLER)
         }
         // start "eachSecond"
         taskId = Bukkit.getScheduler().scheduleSyncRepeatingTask(Bedwars.instance, {
@@ -118,5 +118,8 @@ class Game(
     companion object {
         lateinit var instance: Game
             private set
+
+        const val ITEMS_SELLER = "Items"
+        const val UPGRADES_SELLER = "Upgrades"
     }
 }
