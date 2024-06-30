@@ -1,6 +1,7 @@
 package world.anhgelus.architectsland.bedwars
 
 import org.bukkit.Bukkit
+import org.bukkit.event.player.PlayerQuitEvent
 import org.bukkit.plugin.java.JavaPlugin
 import world.anhgelus.architectsland.bedwars.command.BedwarsCommand
 import world.anhgelus.architectsland.bedwars.command.StartCommand
