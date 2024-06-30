@@ -1,10 +1,13 @@
 package world.anhgelus.architectsland.bedwars.game
 
+import net.minecraft.server.v1_8_R3.NBTTagCompound
 import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.Material
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftVillager
 import org.bukkit.entity.EntityType
 import org.bukkit.entity.Item
+import org.bukkit.entity.LivingEntity
 import org.bukkit.inventory.ItemStack
 import org.bukkit.util.Vector
 import world.anhgelus.architectsland.bedwars.Bedwars
@@ -26,6 +29,21 @@ class Game(
             team.players.forEach { player ->
                 player.teleport(team.respawnLoc)
             }
+
+            //@TODO Create own entity type for npc
+
+            val tag: NBTTagCompound = NBTTagCompound();
+
+            val seller = team.itemSellerLoc!!.world.spawnEntity(team.itemSellerLoc, EntityType.VILLAGER);
+            seller.customName = "Pomme"
+            seller.isCustomNameVisible = true
+            (seller as CraftVillager).handle.k(true) // NoAI
+            seller.handle.e(tag) // add tag
+            tag.setBoolean("Invulnerable", true);
+            seller.handle.f(tag) //apply tag
+            seller.handle.b(true) // silent
+            seller.canPickupItems = false
+
         }
         // start "eachSecond"
         taskId = Bukkit.getScheduler().scheduleSyncRepeatingTask(Bedwars.instance, {
@@ -35,6 +53,10 @@ class Game(
 
     fun stop() {
         // stop task "eachSecond"
+        teams.forEach { team ->
+            team.itemSellerLoc!!.world.getNearbyEntities(team.itemSellerLoc, 1.0, 1.0, 1.0).forEach { entity -> (entity as LivingEntity).health = 0.0}
+        }
+
         Bukkit.getScheduler().cancelTask(taskId!!)
     }
 
