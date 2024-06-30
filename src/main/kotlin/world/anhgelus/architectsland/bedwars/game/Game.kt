@@ -46,7 +46,6 @@ class Game(
             seller.handle.f(tag) //apply tag
             seller.handle.b(true) // silent
             seller.canPickupItems = false
-            seller.
 
         }
         // start "eachSecond"
