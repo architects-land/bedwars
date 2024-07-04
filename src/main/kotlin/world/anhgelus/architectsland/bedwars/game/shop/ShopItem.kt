@@ -68,7 +68,7 @@ enum class ShopItem(
         constructor(iron: Int, gold: Int) : this(iron, gold, 0, 0)
 
         companion object {
-            val CURRENCIES = listOf<Material>(Material.IRON_INGOT, Material.GOLD_INGOT, Material.DIAMOND, Material.EMERALD)
+            val CURRENCIES = listOf(Material.IRON_INGOT, Material.GOLD_INGOT, Material.DIAMOND, Material.EMERALD)
         }
     }
 
@@ -106,7 +106,7 @@ enum class ShopItem(
     }
 
     fun hasMoney(player: Player): Boolean {
-        val price = mapOf<Material, Int>(
+        val price = mapOf(
             Material.IRON_INGOT to price.iron,
             Material.GOLD_INGOT to price.gold,
             Material.DIAMOND to price.diamond,
