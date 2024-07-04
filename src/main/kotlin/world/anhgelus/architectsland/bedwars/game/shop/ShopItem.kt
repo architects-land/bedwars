@@ -143,6 +143,9 @@ enum class ShopItem(
     }
 
     companion object {
+        val SWORDS = listOf(IRON_SWORD, STONE_SWORD, DIAMOND_SWORD)
+        val ARMORS = listOf(IRON_ARMOR, CHAINMAIL_ARMOR, DIAMOND_ARMOR)
+
         fun itemsOf(menu: Shop.GuiMenu): List<ShopItem> {
             return entries.filter { it.menu == menu }
         }

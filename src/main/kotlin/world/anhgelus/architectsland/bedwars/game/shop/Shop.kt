@@ -150,11 +150,11 @@ class Shop(val team: Team) {
             when(item.type) {
                 Material.WOOL -> buy(player, shop.generateWool())
                 else -> {
-                    if (item.type in SWORDS) {
+                    val shopItem = ShopItem.from(item)
+                    if (shopItem in ShopItem.SWORDS) {
                         buy(player, team.generateSword(item.type))
                         return
-                    } else if (item.type in ARMORS) {
-                        val shopItem = ShopItem.from(item)
+                    } else if (shopItem in ShopItem.ARMORS) {
                         if (shopItem.hasMoney(player)) {
                             team.generateArmor(item.type, player)
                         } else {
@@ -179,14 +179,5 @@ class Shop(val team: Team) {
 
     object GuiUpgradesListener: Listener {
 
-    }
-    
-    companion object {
-        val SWORDS = listOf<Material>(Material.IRON_SWORD, Material.STONE_SWORD, Material.DIAMOND_SWORD)
-        val ARMORS = listOf<Material>(Material.IRON_BOOTS, Material.CHAINMAIL_BOOTS, Material.DIAMOND_BOOTS)
-
-        val PRICES = mapOf<Material, ShopItem.Price>(
-
-        )
     }
 }
