@@ -1,4 +1,4 @@
-package world.anhgelus.architectsland.bedwars.game
+package world.anhgelus.architectsland.bedwars.game.shop
 
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
@@ -10,17 +10,13 @@ import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.ItemStack
 import org.bukkit.material.Wool
+import world.anhgelus.architectsland.bedwars.game.Game
 import world.anhgelus.architectsland.bedwars.team.Team
 import world.anhgelus.architectsland.bedwars.team.TeamPlayer
 import world.anhgelus.architectsland.bedwars.utils.ColorHelper
 
 class Shop(val team: Team) {
     private val guiUpgrades: Inventory = Bukkit.createInventory(null, 9, Game.UPGRADES_SELLER)
-
-    data class Price(val iron: Int, val gold: Int, val diamond: Int, val emerald: Int) {
-        constructor(iron: Int) : this(iron, 0, 0, 0)
-        constructor(iron: Int, gold: Int) : this(iron, gold, 0, 0)
-    }
 
     private object GuiUtils {
         fun createItem(material: Material, name: String, amount: Int): ItemStack {
@@ -253,38 +249,8 @@ class Shop(val team: Team) {
         val SWORDS = listOf<Material>(Material.IRON_SWORD, Material.STONE_SWORD, Material.DIAMOND_SWORD)
         val ARMORS = listOf<Material>(Material.IRON_BOOTS, Material.CHAINMAIL_BOOTS, Material.DIAMOND_BOOTS)
 
-        val PRICES = mapOf<Material, Price>(
-            // blocks
-            Material.WOOL to Price(4),
-            Material.HARD_CLAY to Price(0),
-            Material.GLASS to Price(24),
-            Material.WOOD to Price(0, 4),
-            Material.ENDER_STONE to Price(16),
-            Material.LADDER to Price(0),
-            Material.OBSIDIAN to Price(0, 0, 0, 4),
-            // combat
-            Material.STONE_SWORD to Price(10),
-            Material.IRON_SWORD to Price(0, 7),
-            Material.DIAMOND_SWORD to Price(0, 0, 0, 4),
-            Material.STICK to Price(0),
-            Material.CHAINMAIL_BOOTS to Price(40),
-            Material.IRON_BOOTS to Price(0, 12),
-            Material.DIAMOND_BOOTS to Price(0, 0, 0, 6),
-            Material.ARROW to Price(0, 2),
-            Material.BOW to Price(0),
-            // boosts
-            Material.POTION to Price(0),
-            // Misc
-            Material.GOLDEN_APPLE to Price(0, 3),
-            Material.SNOW_BALL to Price(0),
-            Material.MONSTER_EGG to Price(0),
-            Material.FIREBALL to Price(48),
-            Material.TNT to Price(0, 4),
-            Material.ENDER_PEARL to Price(0),
-            Material.WATER_BUCKET to Price(0),
-            Material.EGG to Price(0, 0, 0, 2),
-            Material.MILK_BUCKET to Price(0),
-            Material.SPONGE to Price(0),
+        val PRICES = mapOf<Material, ShopItem.Price>(
+
         )
     }
 }
