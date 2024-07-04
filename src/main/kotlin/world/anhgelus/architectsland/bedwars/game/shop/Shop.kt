@@ -84,29 +84,29 @@ class Shop(val team: Team) {
         when (menu) {
             GuiMenu.MAIN -> {
                 // line 1
-                guiItems.setItem(19, generateWool())
-                guiItems.setItem(20, GuiUtils.createItem(Material.STONE_SWORD))
-                guiItems.setItem(21, GuiUtils.createItem(Material.CHAINMAIL_BOOTS))
-                guiItems.setItem(22, GuiUtils.createItem(Material.EGG))
-                guiItems.setItem(23, GuiUtils.createItem(Material.BOW))
-                guiItems.setItem(24, GuiUtils.createItem(Material.POTION))
-                guiItems.setItem(25, GuiUtils.createItem(Material.TNT))
+                guiItems.setItem(19, ShopItem.WOOL.updateWool(team))
+                guiItems.setItem(20, ShopItem.STONE_SWORD.item)
+                guiItems.setItem(21, ShopItem.CHAINMAIL_ARMOR.item)
+                guiItems.setItem(22, ShopItem.BRIDGE_EGG.item)
+                guiItems.setItem(23, ShopItem.BOW_LVL_1.item)
+                guiItems.setItem(24, ShopItem.INVISIBILITY_POTION.item)
+                guiItems.setItem(25, ShopItem.TNT.item)
                 // line 2
-                guiItems.setItem(28, GuiUtils.createItem(Material.WOOD, 16))
-                guiItems.setItem(29, GuiUtils.createItem(Material.IRON_SWORD))
-                guiItems.setItem(30, GuiUtils.createItem(Material.IRON_BOOTS))
+                guiItems.setItem(28, ShopItem.WOOD.item)
+                guiItems.setItem(29, ShopItem.IRON_SWORD.item)
+                guiItems.setItem(30, ShopItem.IRON_ARMOR.item)
                 guiItems.setItem(31, GuiUtils.createItem(Material.SHEARS))
-                guiItems.setItem(32, GuiUtils.createItem(Material.ARROW, 6))
-                guiItems.setItem(33, GuiUtils.createItem(Material.POTION))
-                guiItems.setItem(34, GuiUtils.createItem(Material.WATER_BUCKET))
+                guiItems.setItem(32, ShopItem.ARROW.item)
+                guiItems.setItem(33, ShopItem.JUMP_BOOST_POTION.item)
+                guiItems.setItem(34, ShopItem.WATER_BUCKET.item)
                 // line 3
-                guiItems.setItem(37, GuiUtils.createItem(Material.ENDER_STONE, 12))
-                guiItems.setItem(38, GuiUtils.createItem(Material.GLASS, 4))
-                guiItems.setItem(39, GuiUtils.createItem(Material.DIAMOND_BOOTS))
+                guiItems.setItem(37, ShopItem.ENDER_STONE.item)
+                guiItems.setItem(38, ShopItem.GLASS.item)
+                guiItems.setItem(39, ShopItem.DIAMOND_ARMOR.item)
                 guiItems.setItem(40, GuiUtils.createItem(Material.AIR))
-                guiItems.setItem(41, GuiUtils.createItem(Material.FIREBALL))
-                guiItems.setItem(42, GuiUtils.createItem(Material.GOLDEN_APPLE))
-                guiItems.setItem(43, GuiUtils.createItem(Material.OBSIDIAN))
+                guiItems.setItem(41, ShopItem.FIREBALL.item)
+                guiItems.setItem(42, ShopItem.GOLDEN_APPLE.item)
+                guiItems.setItem(43, ShopItem.OBSIDIAN.item)
             }
             else -> ShopItem.itemsOf(menu).forEach { it.placeInInventory(guiItems, team) }
         }

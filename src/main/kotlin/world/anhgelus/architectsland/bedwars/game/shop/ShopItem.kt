@@ -68,15 +68,20 @@ enum class ShopItem(
     fun type(): Material { return item.type }
 
     fun placeInInventory(inventory: Inventory, team: Team) {
-        if (item.type == Material.WOOL) updateWool(team)
-        inventory.setItem(place, item)
+        inventory.setItem(place, if (item.type == Material.WOOL) {
+            updateWool(team)
+        } else {
+            item
+        })
     }
 
-    fun updateWool(team: Team) {
-        if (item.type != Material.WOOL) return
+    fun updateWool(team: Team): ItemStack {
+        if (item.type != Material.WOOL) throw IllegalArgumentException("${item.type} is not a wool, u r dumb, right?")
+        val item = item.clone()
         val data = item.data as Wool
         data.color = ColorHelper.chatColorToDyeColor[team.color]
         item.data = data
+        return item
     }
 
     private object Creator {
