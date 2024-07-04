@@ -2,9 +2,13 @@ package world.anhgelus.architectsland.bedwars.game.shop
 
 import org.bukkit.Material
 import org.bukkit.enchantments.Enchantment
+import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.PotionMeta
+import org.bukkit.material.Wool
 import org.bukkit.potion.PotionEffectType
+import world.anhgelus.architectsland.bedwars.team.Team
+import world.anhgelus.architectsland.bedwars.utils.ColorHelper
 import java.util.stream.Stream
 
 
@@ -62,6 +66,18 @@ enum class ShopItem(
     }
 
     fun type(): Material { return item.type }
+
+    fun placeInInventory(inventory: Inventory, team: Team) {
+        if (item.type == Material.WOOL) updateWool(team)
+        inventory.setItem(place, item)
+    }
+
+    fun updateWool(team: Team) {
+        if (item.type != Material.WOOL) return
+        val data = item.data as Wool
+        data.color = ColorHelper.chatColorToDyeColor[team.color]
+        item.data = data
+    }
 
     private object Creator {
         fun createBow(powerLvl: Int, punchLvl: Int): ItemStack {

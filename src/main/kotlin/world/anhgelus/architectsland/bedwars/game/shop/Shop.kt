@@ -108,51 +108,7 @@ class Shop(val team: Team) {
                 guiItems.setItem(42, GuiUtils.createItem(Material.GOLDEN_APPLE))
                 guiItems.setItem(43, GuiUtils.createItem(Material.OBSIDIAN))
             }
-            GuiMenu.BLOCK -> {
-                guiItems.setItem(19, GuiUtils.createItem(Material.WOOL, 16)) // 4 fers
-                guiItems.setItem(20, GuiUtils.createItem(Material.HARD_CLAY, 16))
-                guiItems.setItem(21, GuiUtils.createItem(Material.GLASS, 4))
-                guiItems.setItem(22, GuiUtils.createItem(Material.ENDER_STONE, 12))
-                guiItems.setItem(23, GuiUtils.createItem(Material.LADDER, 8))
-                guiItems.setItem(24, GuiUtils.createItem(Material.WOOD, 16))
-                guiItems.setItem(25, GuiUtils.createItem(Material.OBSIDIAN, 4))
-            }
-            GuiMenu.COMBAT -> {
-                // line 1
-                guiItems.setItem(19, GuiUtils.createItem(Material.STONE_SWORD))
-                guiItems.setItem(20, GuiUtils.createItem(Material.IRON_SWORD))
-                guiItems.setItem(21, GuiUtils.createItem(Material.DIAMOND_SWORD))
-                guiItems.setItem(22, GuiUtils.createItem(Material.STICK))
-                // line 2
-                guiItems.setItem(28, GuiUtils.createItem(Material.CHAINMAIL_BOOTS))
-                guiItems.setItem(29, GuiUtils.createItem(Material.IRON_BOOTS))
-                guiItems.setItem(30, GuiUtils.createItem(Material.DIAMOND_BOOTS))
-                // line 3
-                guiItems.setItem(37, GuiUtils.createItem(Material.ARROW, 6))
-                guiItems.setItem(38, GuiUtils.createItem(Material.BOW))
-                guiItems.setItem(39, GuiUtils.createItem(Material.BOW))
-                guiItems.setItem(40, GuiUtils.createItem(Material.BOW))
-            }
-            GuiMenu.BOOST -> {
-                // line 1
-                guiItems.setItem(19, GuiUtils.createItem(Material.POTION))
-                guiItems.setItem(20, GuiUtils.createItem(Material.POTION))
-                guiItems.setItem(21, GuiUtils.createItem(Material.POTION))
-            }
-            GuiMenu.MISC -> {
-                // line 1
-                guiItems.setItem(19, GuiUtils.createItem(Material.GOLDEN_APPLE))
-                guiItems.setItem(20, GuiUtils.createItem(Material.SNOW_BALL))
-                guiItems.setItem(21, GuiUtils.createItem(Material.MONSTER_EGG))
-                guiItems.setItem(22, GuiUtils.createItem(Material.FIREBALL))
-                guiItems.setItem(23, GuiUtils.createItem(Material.TNT))
-                guiItems.setItem(24, GuiUtils.createItem(Material.ENDER_PEARL))
-                guiItems.setItem(25, GuiUtils.createItem(Material.WATER_BUCKET))
-                // line 2
-                guiItems.setItem(37, GuiUtils.createItem(Material.EGG))
-                guiItems.setItem(37, GuiUtils.createItem(Material.MILK_BUCKET))
-                guiItems.setItem(37, GuiUtils.createItem(Material.SPONGE, 4))
-            }
+            else -> ShopItem.itemsOf(menu).forEach { it.placeInInventory(guiItems, team) }
         }
         // open gui for player
         player.openInventory(guiItems)
