@@ -154,45 +154,26 @@ class Shop(val team: Team) {
                         buy(player, team.generateSword(item.type))
                         return
                     } else if (item.type in ARMORS) {
-                        if (hasMoney(player, item.type)) {
+                        val shopItem = ShopItem.from(item)
+                        if (shopItem.hasMoney(player)) {
                             team.generateArmor(item.type, player)
                         } else {
                             player.sendMessage("You don't have the money to buy it")
                         }
                         return
                     }
-                    throw NullPointerException("Unknow item")
+                    throw NullPointerException("Unknown item")
                 }
             }
         }
 
         private fun buy(player: Player, item: ItemStack) {
-            if (hasMoney(player, item.type)) {
+            val shopItem = ShopItem.from(item)
+            if (shopItem.hasMoney(player)) {
                 player.inventory.addItem(item)
                 return
             }
             player.sendMessage("You don't have the money to buy it")
-        }
-
-        private fun hasMoney(player: Player, item: Material): Boolean {
-            val pr = PRICES[item]!!
-            val price = mapOf<Material, Int>(
-                Material.IRON_INGOT to pr.iron,
-                Material.GOLD_INGOT to pr.gold,
-                Material.DIAMOND to pr.diamond,
-                Material.EMERALD to pr.emerald,
-            )
-            player.inventory.forEach {
-                if (it.type in CURRENCIES) {
-                    val p = price[it.type]!!
-                    if (it.amount < p) {
-                        return false
-                    }
-                    it.amount -= p
-                    return true
-                }
-            }
-            return false
         }
     }
 
@@ -201,7 +182,6 @@ class Shop(val team: Team) {
     }
     
     companion object {
-        val CURRENCIES = listOf<Material>(Material.IRON_INGOT, Material.GOLD_INGOT, Material.DIAMOND, Material.EMERALD)
         val SWORDS = listOf<Material>(Material.IRON_SWORD, Material.STONE_SWORD, Material.DIAMOND_SWORD)
         val ARMORS = listOf<Material>(Material.IRON_BOOTS, Material.CHAINMAIL_BOOTS, Material.DIAMOND_BOOTS)
 

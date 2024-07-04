@@ -2,6 +2,7 @@ package world.anhgelus.architectsland.bedwars.game.shop
 
 import org.bukkit.Material
 import org.bukkit.enchantments.Enchantment
+import org.bukkit.entity.Player
 import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.PotionMeta
@@ -9,7 +10,6 @@ import org.bukkit.material.Wool
 import org.bukkit.potion.PotionEffectType
 import world.anhgelus.architectsland.bedwars.team.Team
 import world.anhgelus.architectsland.bedwars.utils.ColorHelper
-import java.util.stream.Stream
 
 
 enum class ShopItem(
@@ -26,6 +26,7 @@ enum class ShopItem(
     LADDER(ItemStack(Material.LADDER, 8), Price(0), Shop.GuiMenu.BLOCK, 23),
     WOOD(ItemStack(Material.WOOD, 16), Price(0, 4), Shop.GuiMenu.BLOCK, 24),
     OBSIDIAN(ItemStack(Material.OBSIDIAN, 4), Price(0, 0, 0, 4), Shop.GuiMenu.BLOCK, 25),
+
     // combat
         // line 1
     STONE_SWORD(ItemStack(Material.STONE_SWORD), Price(10), Shop.GuiMenu.COMBAT, 19),
@@ -41,10 +42,12 @@ enum class ShopItem(
     BOW_LVL_1(Creator.createBow(1, 0), Price(0), Shop.GuiMenu.COMBAT, 38),
     BOW_LVL_2(Creator.createBow(2, 0), Price(0), Shop.GuiMenu.COMBAT, 39),
     BOW_LVL_3(Creator.createBow(2, 1), Price(0), Shop.GuiMenu.COMBAT, 40),
+
     // boosts
     SPEED_POTION(Creator.createPotion(PotionEffectType.SPEED, 45, 0), Price(0), Shop.GuiMenu.BOOST, 19),
     JUMP_BOOST_POTION(Creator.createPotion(PotionEffectType.JUMP, 45, 0), Price(0), Shop.GuiMenu.BOOST, 20),
     INVISIBILITY_POTION(Creator.createPotion(PotionEffectType.INVISIBILITY, 45, 0), Price(0), Shop.GuiMenu.BOOST, 21),
+
     // misc
         // line 1
     GOLDEN_APPLE(ItemStack(Material.GOLDEN_APPLE), Price(0, 3), Shop.GuiMenu.MISC, 19),
@@ -63,6 +66,10 @@ enum class ShopItem(
     data class Price(val iron: Int, val gold: Int, val diamond: Int, val emerald: Int) {
         constructor(iron: Int) : this(iron, 0, 0, 0)
         constructor(iron: Int, gold: Int) : this(iron, gold, 0, 0)
+
+        companion object {
+            val CURRENCIES = listOf<Material>(Material.IRON_INGOT, Material.GOLD_INGOT, Material.DIAMOND, Material.EMERALD)
+        }
     }
 
     fun type(): Material { return item.type }
@@ -98,6 +105,26 @@ enum class ShopItem(
         return item
     }
 
+    fun hasMoney(player: Player): Boolean {
+        val price = mapOf<Material, Int>(
+            Material.IRON_INGOT to price.iron,
+            Material.GOLD_INGOT to price.gold,
+            Material.DIAMOND to price.diamond,
+            Material.EMERALD to price.emerald,
+        )
+        player.inventory.forEach {
+            if (it.type in Price.CURRENCIES) {
+                val p = price[it.type]!!
+                if (it.amount < p) {
+                    return false
+                }
+                it.amount -= p
+                return true
+            }
+        }
+        return false
+    }
+
     private object Creator {
         fun createBow(powerLvl: Int, punchLvl: Int): ItemStack {
             val item = ItemStack(Material.BOW)
@@ -116,12 +143,16 @@ enum class ShopItem(
     }
 
     companion object {
-        fun itemsOf(menu: Shop.GuiMenu): Stream<ShopItem> {
-            return entries.stream().filter { it.menu == menu }
+        fun itemsOf(menu: Shop.GuiMenu): List<ShopItem> {
+            return entries.filter { it.menu == menu }
         }
 
-        fun itemsOf(type: Material): Stream<ShopItem> {
-            return entries.stream().filter { it.type() == type }
+        fun itemsOf(type: Material): List<ShopItem> {
+            return entries.filter { it.type() == type }
+        }
+
+        fun from(item: ItemStack): ShopItem {
+            return entries.first { it.item == item }
         }
     }
 }
