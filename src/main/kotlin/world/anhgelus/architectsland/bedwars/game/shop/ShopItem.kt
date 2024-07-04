@@ -13,7 +13,7 @@ import java.util.stream.Stream
 
 
 enum class ShopItem(
-    val item: ItemStack,
+    private val item: ItemStack,
     val price: Price,
     val menu: Shop.GuiMenu,
     val place: Int,
@@ -71,16 +71,30 @@ enum class ShopItem(
         inventory.setItem(place, if (item.type == Material.WOOL) {
             updateWool(team)
         } else {
-            item
+            item()
         })
     }
 
     fun updateWool(team: Team): ItemStack {
         if (item.type != Material.WOOL) throw IllegalArgumentException("${item.type} is not a wool, u r dumb, right?")
-        val item = item.clone()
+        val item = item()
         val data = item.data as Wool
         data.color = ColorHelper.chatColorToDyeColor[team.color]
         item.data = data
+        return item
+    }
+
+    fun item(): ItemStack {
+        val item = item.clone()
+        val meta = item.itemMeta
+        val lore = mutableListOf<String>()
+        lore.add("Price: ")
+        if (price.iron != 0) lore.add("IRON: ${price.iron}")
+        if (price.gold != 0) lore.add("GOLD: ${price.gold}")
+        if (price.diamond != 0) lore.add("DIAMOND: ${price.diamond}")
+        if (price.emerald != 0) lore.add("EMERALD: ${price.emerald}")
+        meta.lore = lore
+        item.itemMeta = meta
         return item
     }
 
