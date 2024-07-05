@@ -13,7 +13,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent
 import org.bukkit.event.entity.EntityDamageEvent
 import org.bukkit.event.player.PlayerInteractEntityEvent
 import world.anhgelus.architectsland.bedwars.Bedwars
-import world.anhgelus.architectsland.bedwars.game.Shop
+import world.anhgelus.architectsland.bedwars.game.shop.Shop
 import world.anhgelus.architectsland.bedwars.team.Team
 import world.anhgelus.architectsland.bedwars.team.TeamPlayer
 import world.anhgelus.architectsland.bedwars.utils.TitleGenerator
