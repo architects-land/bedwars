@@ -7,7 +7,10 @@ import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.PotionMeta
 import org.bukkit.material.Wool
+import org.bukkit.potion.Potion
+import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
+import org.bukkit.potion.PotionType
 import world.anhgelus.architectsland.bedwars.team.Team
 import world.anhgelus.architectsland.bedwars.utils.ColorHelper
 
@@ -22,7 +25,7 @@ enum class ShopItem(
     WOOL(ItemStack(Material.WOOL, 16), Price(4), Shop.GuiMenu.BLOCK, 19),
     HARD_CLAY(ItemStack(Material.HARD_CLAY, 16), Price(0), Shop.GuiMenu.BLOCK, 20),
     GLASS(ItemStack(Material.GLASS, 4), Price(24), Shop.GuiMenu.BLOCK, 21),
-    ENDER_STONE(ItemStack(Material.GLASS, 12), Price(16), Shop.GuiMenu.BLOCK, 22),
+    ENDER_STONE(ItemStack(Material.ENDER_STONE, 12), Price(16), Shop.GuiMenu.BLOCK, 22),
     LADDER(ItemStack(Material.LADDER, 8), Price(0), Shop.GuiMenu.BLOCK, 23),
     WOOD(ItemStack(Material.WOOD, 16), Price(0, 4), Shop.GuiMenu.BLOCK, 24),
     OBSIDIAN(ItemStack(Material.OBSIDIAN, 4), Price(0, 0, 0, 4), Shop.GuiMenu.BLOCK, 25),
@@ -44,9 +47,9 @@ enum class ShopItem(
     BOW_LVL_3(Creator.createBow(2, 1), Price(0), Shop.GuiMenu.COMBAT, 40),
 
     // boosts
-    SPEED_POTION(Creator.createPotion(PotionEffectType.SPEED, 45, 0), Price(0), Shop.GuiMenu.BOOST, 19),
-    JUMP_BOOST_POTION(Creator.createPotion(PotionEffectType.JUMP, 45, 0), Price(0), Shop.GuiMenu.BOOST, 20),
-    INVISIBILITY_POTION(Creator.createPotion(PotionEffectType.INVISIBILITY, 45, 0), Price(0), Shop.GuiMenu.BOOST, 21),
+    SPEED_POTION(Creator.createPotion(PotionType.SPEED, 45*20, 1), Price(0), Shop.GuiMenu.BOOST, 19),
+    JUMP_BOOST_POTION(Creator.createPotion(PotionType.JUMP, 45*20, 1), Price(0), Shop.GuiMenu.BOOST, 20),
+    INVISIBILITY_POTION(Creator.createPotion(PotionType.INVISIBILITY, 45*20, 1), Price(0), Shop.GuiMenu.BOOST, 21),
 
     // misc
         // line 1
@@ -129,14 +132,16 @@ enum class ShopItem(
         fun createBow(powerLvl: Int, punchLvl: Int): ItemStack {
             val item = ItemStack(Material.BOW)
             item.addEnchantment(Enchantment.ARROW_DAMAGE, powerLvl)
-            item.addEnchantment(Enchantment.ARROW_KNOCKBACK, punchLvl)
+            if(punchLvl > 0) item.addEnchantment(Enchantment.ARROW_KNOCKBACK, punchLvl)
             return item
         }
 
-        fun createPotion(type: PotionEffectType, duration: Int, level: Int): ItemStack {
-            val item = ItemStack(Material.POTION)
+        fun createPotion(type: PotionType, duration: Int, level: Int): ItemStack {
+            val effect = PotionEffect(type.effectType, duration, level)
+
+            val item = Potion(type, level).toItemStack(1);
             val meta = item.itemMeta as PotionMeta
-            meta.setMainEffect(type)
+            meta.addCustomEffect(effect, false);
             item.itemMeta = meta
             return item
         }
